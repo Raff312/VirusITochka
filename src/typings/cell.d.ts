@@ -1,0 +1,1 @@
+export type CellStateType = "healthy" | "infected" | "immune";

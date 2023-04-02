@@ -1,0 +1,44 @@
+{
+    "files.exclude": {
+        "dist": true,
+        "node_modules": true,
+        "package-lock.json": true,
+        "**/*.css": {
+            "when": "$(basename).scss"
+        },
+        "**/*.min.css": {
+            "when": "$(basename).css"
+        },
+        "**/*.map": true
+    },
+    "cSpell.language": "en,ru",
+    "todohighlight.isEnable": true,
+    "todohighlight.isCaseSensitive": false,
+    "todohighlight.keywords": [
+        {
+            "text": "NOTE:"
+        }
+    ],
+    "todohighlight.include": [
+        "**/*.js",
+        "**/*.ts",
+        "**/*.html",
+        "**/*.cs",
+        "**/*.scss",
+        "**/*.json",
+    ],
+    "todohighlight.exclude": [
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/wwwroot/**",
+        "**/.vscode/**",
+        "**/.vs/**",
+        "**/.github/**",
+        "**/_output/**",
+        "**/*.min.*",
+        "**/*.map"
+    ],
+    "todohighlight.toggleURI": false
+}

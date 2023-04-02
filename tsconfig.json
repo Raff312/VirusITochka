@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "noImplicitOverride": true,
+        "baseUrl": ".",
+        "target": "es6",
+        "lib": ["es6", "dom"],
+        "importHelpers": true,
+        "strict": true,
+        "paths": {
+            "tslib": ["./node_modules/tslib/tslib.d.ts"]
+        }
+    }
+}
