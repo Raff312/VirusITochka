@@ -1,26 +1,32 @@
 import { Area } from "./models/area";
-import { Cell } from "./models/cell";
+import { Cell } from "./models/coord";
 import { ICoord } from "./models/point";
 
 export class AreaRenderer {
-    private static readonly ID = "area-canvas";
+    private readonly canvasEl: HTMLCanvasElement;
+    private readonly ctx: CanvasRenderingContext2D;
+
+    private cellSize: number = 100;
+
+    constructor() {
+        this.canvasEl = document.getElementById("canvas") as HTMLCanvasElement;
+        this.ctx = this.canvasEl.getContext("2d") as CanvasRenderingContext2D;
+
+        if (!this.canvasEl || !this.ctx) {
+            throw new Error("Unable to create AreaRenderer");
+        }
+    }
 
     public render(area: Area): void {
-        let currentElement = document.getElementById(AreaRenderer.ID);
-        if (!currentElement || !this.isValid(currentElement, area)) {
-            currentElement?.remove();
-            currentElement = this.createNew(area);
+        this.cellSize = this.canvasEl.width / area.size;
 
-            const main = document.getElementById("main");
-            main?.appendChild(currentElement);
-        }
+        this.ctx.fillStyle = "#000";
+        this.ctx.fillRect(0, 0, this.canvasEl.width, this.canvasEl.height);
 
         for (let i = 0; i < area.size; i++) {
             for (let j = 0; j < area.size; j++) {
-                const cellElement = document.getElementById(`cell-${i}-${j}`);
-                if (cellElement) {
-                    cellElement.className = `cell ${area.getCell({ i: i, j: j })?.state ?? ""}`;
-                }
+                const coord = { i: i, j: j };
+                this.renderCell(area.getCell(coord), coord);
             }
         }
     }
@@ -30,40 +36,29 @@ export class AreaRenderer {
             return;
         }
 
-        const cellElement = document.getElementById(`cell-${coord.i}-${coord.j}`);
-        if (cellElement) {
-            cellElement.className = `cell ${cell?.state ?? ""}`;
-        }
+        this.ctx.fillStyle = this.getCellColor(cell);
+
+        const x = coord.j * this.cellSize;
+        const y = coord.i * this.cellSize;
+        const wOffset = x > 0 ? 2 : 3;
+        const hOffset = y > 0 ? 2 : 3;
+        this.ctx.fillRect(x > 0 ? x : 2, y > 0 ? y : 2, this.cellSize - wOffset, this.cellSize - hOffset);
     }
 
-    private isValid(currentElement: HTMLElement, area: Area): boolean {
-        return currentElement.querySelectorAll("tr").length === area.size;
-    }
-
-    private createNew(area: Area): HTMLTableElement {
-        const currentAreaElement = document.getElementById(AreaRenderer.ID);
-        if (currentAreaElement) {
-            currentAreaElement.remove();
+    private getCellColor(cell: Cell | null): string {
+        if (!cell) {
+            return "#ffffff";
         }
 
-        const newAreaElement = document.createElement("table");
-        newAreaElement.className = AreaRenderer.ID;
-        newAreaElement.id = AreaRenderer.ID;
-
-        for (let i = 0; i < area.size; i++) {
-            const row = document.createElement("tr");
-
-            for (let j = 0; j < area.size; j++) {
-                const column = document.createElement("td");
-                column.className = `cell ${area.getCell({ i: i, j: j })?.state ?? ""}`;
-                column.id = `cell-${i}-${j}`;
-
-                row.appendChild(column);
-            }
-
-            newAreaElement.appendChild(row);
+        switch (cell.state) {
+            case "infected":
+                return "#c71010";
+            case "immune":
+                return "#c7c110";
+            case "healthy":
+                return "#00992b";
+            default:
+                return "#ffffff";
         }
-
-        return newAreaElement;
     }
 }

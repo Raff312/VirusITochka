@@ -7,47 +7,57 @@ export class Game {
     private readonly area = new Area(5);
     private readonly areaStateManager = new AreaStateManager(this.area);
 
-    private interval = 0;
-    private started = false;
     public gameTickCounter = 0;
+
+    private running = false;
+    private dateStart = 0;
+    private animationRequestId = 0;
 
     public init(): void {
         this.area.render();
     }
 
     public start(): void {
-        if (this.started) {
+        if (this.running) {
             return;
         }
 
         this.area.render();
-        this.startGameLoop();
+        this.startGameAnimation();
 
-        this.started = true;
+        this.running = true;
     }
 
-    private startGameLoop(): void {
-        this.gameTick();
-        this.interval = window.setInterval(() => this.gameTick(), this.timeoutInSec * 1000);
+    private startGameAnimation(): void {
+        this.animationRequestId = window.requestAnimationFrame(this.gameTick);
     }
 
-    private gameTick(): void {
-        this.areaStateManager.next();
-        if (this.areaStateManager.isAreaUnchangeable) {
-            this.stop();
+    private gameTick = (now: number) => {
+        if (!this.dateStart || now - this.dateStart >= this.timeoutInSec * 1000) {
+            this.dateStart = now;
+            this.areaStateManager.next();
+            if (this.areaStateManager.isAreaUnchangeable) {
+                this.stop();
+                this.reset();
+            }
+
+            this.gameTickCounter++;
         }
 
-        this.gameTickCounter++;
-    }
+        if (this.running) {
+            window.requestAnimationFrame(this.gameTick);
+        }
+    };
 
     public stop(): void {
-        this.stopGameLoop();
+        this.stopGameAnimation();
 
-        this.started = false;
+        this.running = false;
     }
 
-    private stopGameLoop(): void {
-        window.clearInterval(this.interval);
+    private stopGameAnimation(): void {
+        window.cancelAnimationFrame(this.animationRequestId);
+        this.animationRequestId = 0;
     }
 
     public reset(): void {

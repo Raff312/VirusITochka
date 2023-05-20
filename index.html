@@ -8,7 +8,11 @@
         <link rel="icon" href="./dist/assets/virus.png" />
     </head>
     <body>
-        <main id="main"></main>
+        <div class="canvas-wrapper">
+            <canvas class="canvas" id="canvas" width="900" height="900">
+                Если вы можете прочитать это, значит, ваш браузер не поддерживает canvas.
+            </canvas>
+        </div>
         <div class="actions">
             <button class="btn" onclick="game.start()">
                 Старт
@@ -20,9 +24,9 @@
                 Очистить
             </button>
             <label for="timeout">Введите таймаут обновления: </label>
-            <input id="timeout" type="number" min="0.1" max="5" step="0.1" value="0.3" />
-            <label for="area-size">Введите n (от 3 до 51): </label>
-            <input id="area-size" type="number" min="3" max="51" step="2" value="3" />
+            <input id="timeout" type="number" min="0.1" max="5" step="0.1" value="0.1" />
+            <label for="area-size">Введите n (от 3 до 111): </label>
+            <input id="area-size" type="number" min="3" max="111" step="2" value="21" />
         </div>
         <script src="./dist/main.js"></script>
         <script>

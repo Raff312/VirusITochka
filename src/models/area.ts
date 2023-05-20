@@ -1,11 +1,11 @@
 import { AreaRenderer } from "./../area-renderer";
 import { MathUtils } from "../utils/math-utils";
-import { Cell } from "./cell";
+import { Cell } from "./coord";
 import { ICoord } from "./point";
 
 export class Area {
     private static readonly MIN_SIZE = 3;
-    private static readonly MAX_SIZE = 51;
+    private static readonly MAX_SIZE = 111;
 
     private readonly renderer: AreaRenderer;
 

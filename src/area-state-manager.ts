@@ -1,5 +1,5 @@
 import { Area } from "./models/area";
-import { Cell } from "./models/cell";
+import { Cell } from "./models/coord";
 import { ICoord } from "./models/point";
 import { MathUtils } from "./utils/math-utils";
 
@@ -73,7 +73,6 @@ export class AreaStateManager {
             this.area.immunizeCell(coord);
         } else {
             const neighborCoords = this.area.getHealthyNeighborCoords(coord);
-
             const random = MathUtils.generateRandomNumber(0, 1);
             if (neighborCoords.length > 0 && random === 0) {
                 const random = MathUtils.generateRandomNumber(0, neighborCoords.length - 1);
