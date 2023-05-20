@@ -1,13 +1,15 @@
+import { AreaStateManager } from "./area-state-manager";
 import { Area } from "./models/area";
 
 export class Game {
-    public timeoutInSec = 1;
+    public timeoutInSec = 0.3;
 
     private readonly area = new Area(5);
+    private readonly areaStateManager = new AreaStateManager(this.area);
 
     private interval = 0;
-    private i = 0;
     private started = false;
+    public gameTickCounter = 0;
 
     public init(): void {
         this.area.render();
@@ -30,16 +32,16 @@ export class Game {
     }
 
     private gameTick(): void {
-        this.area.infectCell(this.i, this.i);
-        this.area.infectCell(-this.i, -this.i);
-        this.area.infectCell(-this.i, this.i);
-        this.area.infectCell(this.i, -this.i);
-        this.i++;
+        this.areaStateManager.next();
+        if (this.areaStateManager.isAreaUnchangeable) {
+            this.stop();
+        }
+
+        this.gameTickCounter++;
     }
 
     public stop(): void {
         this.stopGameLoop();
-        this.i = 0;
 
         this.started = false;
     }
@@ -49,7 +51,8 @@ export class Game {
     }
 
     public reset(): void {
-        this.area.resetCells();
+        this.areaStateManager.reset();
+        this.gameTickCounter = 0;
         this.stop();
     }
 

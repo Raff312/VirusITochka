@@ -1,29 +1,31 @@
 import { AreaRenderer } from "./../area-renderer";
 import { MathUtils } from "../utils/math-utils";
 import { Cell } from "./cell";
+import { ICoord } from "./point";
 
 export class Area {
     private static readonly MIN_SIZE = 3;
-    private static readonly MAX_SIZE = 101;
+    private static readonly MAX_SIZE = 51;
 
     private readonly renderer: AreaRenderer;
 
     private _size = 3;
     private _cells = new Array<Array<Cell>>();
 
-    constructor(size: number) {
+    constructor(size: number, cells?: Array<Array<Cell>>) {
         this.renderer = new AreaRenderer();
 
         this.size = size;
-        this.initCells();
+        this.initCells(cells);
     }
 
-    private initCells(): void {
+    private initCells(cells?: Array<Array<Cell>>): void {
         this._cells = new Array<Array<Cell>>();
         for (let i = 0; i < this._size; i++) {
             this._cells.push(new Array<Cell>());
             for (let j = 0; j < this._size; j++) {
-                this._cells[i].push(new Cell());
+                const cell = cells && cells[i][j] ? cells[i][j] : new Cell();
+                this._cells[i].push(cell);
             }
         }
     }
@@ -49,21 +51,24 @@ export class Area {
         this.render();
     }
 
-    public infectCell(i: number, j: number): boolean {
-        const succeed = this.getCell(i, j)?.infect() ?? false;
-        this.render();
+    public infectCell(coord: ICoord): boolean {
+        const cell = this.getCell(coord);
+        const succeed = cell?.infect() ?? false;
+        this.renderer.renderCell(cell, coord);
         return succeed;
     }
 
-    public immunizeCell(i: number, j: number): boolean {
-        const succeed = this.getCell(i, j)?.immunize() ?? false;
-        this.render();
+    public immunizeCell(coord: ICoord): boolean {
+        const cell = this.getCell(coord);
+        const succeed = cell?.immunize() ?? false;
+        this.renderer.renderCell(cell, coord);
         return succeed;
     }
 
-    public recoverCell(i: number, j: number): boolean {
-        const succeed = this.getCell(i, j)?.recover() ?? false;
-        this.render();
+    public recoverCell(coord: ICoord): boolean {
+        const cell = this.getCell(coord);
+        const succeed = cell?.recover() ?? false;
+        this.renderer.renderCell(cell, coord);
         return succeed;
     }
 
@@ -71,14 +76,43 @@ export class Area {
         this.renderer.render(this);
     }
 
-    public getCell(i: number, j: number): Cell | null {
-        i = MathUtils.minMax(i, 0, this._cells.length);
-        j = MathUtils.minMax(j, 0, this._cells[0].length);
+    public getCell(coord: ICoord): Cell | null {
+        const i = MathUtils.minMax(coord.i, 0, this._cells.length);
+        const j = MathUtils.minMax(coord.j, 0, this._cells[0].length);
 
         try {
             return this._cells[i][j];
         } catch {
             return null;
         }
+    }
+
+    public getHealthyNeighborCoords(coord: ICoord): Array<ICoord> {
+        const result = new Array<ICoord>();
+
+        [
+            { i: coord.i, j: coord.j - 1 },
+            { i: coord.i - 1, j: coord.j - 1 },
+            { i: coord.i - 1, j: coord.j },
+            { i: coord.i - 1, j: coord.j + 1 },
+            { i: coord.i, j: coord.j + 1 },
+            { i: coord.i + 1, j: coord.j + 1 },
+            { i: coord.i + 1, j: coord.j },
+            { i: coord.i + 1, j: coord.j - 1 }
+        ].forEach((coord: ICoord) => {
+            try {
+                if (this._cells[coord.i][coord.j] && this._cells[coord.i][coord.j].state === "healthy") {
+                    result.push(coord);
+                }
+            } catch {
+                // do nothing
+            }
+        });
+
+        return result;
+    }
+
+    public copy(): Area {
+        return new Area(this._size, this._cells);
     }
 }

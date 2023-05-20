@@ -2,9 +2,14 @@ import { CellStateType } from "src/typings/cell";
 
 export class Cell {
     private _state: CellStateType = "healthy";
+    private _stateLifetime: number = 0;
 
     public get state(): CellStateType {
         return this._state;
+    }
+
+    public get stateLifetime(): number {
+        return this._stateLifetime;
     }
 
     public infect(): boolean {
@@ -13,6 +18,7 @@ export class Cell {
         }
 
         this._state = "infected";
+        this._stateLifetime = 0;
         return true;
     }
 
@@ -22,6 +28,7 @@ export class Cell {
         }
 
         this._state = "immune";
+        this._stateLifetime = 0;
         return true;
     }
 
@@ -31,10 +38,16 @@ export class Cell {
         }
 
         this._state = "healthy";
+        this._stateLifetime = 0;
         return true;
     }
 
     public reset(): void {
         this._state = "healthy";
+        this._stateLifetime = 0;
+    }
+
+    public incrementLifeTime(): void {
+        this._stateLifetime++;
     }
 }
