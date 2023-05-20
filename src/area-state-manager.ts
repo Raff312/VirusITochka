@@ -1,6 +1,6 @@
 import { Area } from "./models/area";
-import { Cell } from "./models/coord";
-import { ICoord } from "./models/point";
+import { Cell } from "./models/cell";
+import { ICoord } from "./models/coord";
 import { MathUtils } from "./utils/math-utils";
 
 export class AreaStateManager {

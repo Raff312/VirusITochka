@@ -1,7 +1,7 @@
 import { AreaRenderer } from "./../area-renderer";
 import { MathUtils } from "../utils/math-utils";
-import { Cell } from "./coord";
-import { ICoord } from "./point";
+import { Cell } from "./cell";
+import { ICoord } from "./coord";
 
 export class Area {
     private static readonly MIN_SIZE = 3;
