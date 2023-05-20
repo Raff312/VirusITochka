@@ -6,7 +6,7 @@ timeoutInput.addEventListener("input", () => {
 });
 
 const areaSizeInput = document.getElementById("area-size") as HTMLInputElement;
-areaSizeInput.value = window["game"].getSize();
+areaSizeInput.value = window["game"]?.getSize();
 areaSizeInput.addEventListener("input", () => {
     window["game"].setSize(parseInt(areaSizeInput.value));
 });
