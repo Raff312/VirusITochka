@@ -3,6 +3,8 @@ import { Cell } from "./models/cell";
 import { ICoord } from "./models/coord";
 
 export class AreaRenderer {
+    private readonly BORDER_SIZE = 2;
+
     private readonly canvasEl: HTMLCanvasElement;
     private readonly ctx: CanvasRenderingContext2D;
 
@@ -18,7 +20,7 @@ export class AreaRenderer {
     }
 
     public render(area: Area): void {
-        this.cellSize = this.canvasEl.width / area.size;
+        this.cellSize = (this.canvasEl.width - this.BORDER_SIZE) / area.size;
 
         this.ctx.fillStyle = "#000";
         this.ctx.fillRect(0, 0, this.canvasEl.width, this.canvasEl.height);
@@ -37,12 +39,12 @@ export class AreaRenderer {
         }
 
         this.ctx.fillStyle = this.getCellColor(cell);
-
-        const x = coord.j * this.cellSize;
-        const y = coord.i * this.cellSize;
-        const wOffset = x > 0 ? 2 : 4;
-        const hOffset = y > 0 ? 2 : 4;
-        this.ctx.fillRect(x > 0 ? x : 2, y > 0 ? y : 2, this.cellSize - wOffset, this.cellSize - hOffset);
+        this.ctx.fillRect(
+            coord.j * this.cellSize + this.BORDER_SIZE,
+            coord.i * this.cellSize + this.BORDER_SIZE,
+            this.cellSize - this.BORDER_SIZE,
+            this.cellSize - this.BORDER_SIZE
+        );
     }
 
     private getCellColor(cell: Cell | null): string {
