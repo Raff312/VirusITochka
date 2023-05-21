@@ -72,11 +72,11 @@ export class AreaStateManager {
         if (cell.stateLifetime > 5) {
             this.area.immunizeCell(coord);
         } else {
-            const neighborCoords = this.area.getHealthyNeighborCoords(coord);
+            const healthyNeighborCoords = this.area.getHealthyNeighborCoords(coord);
             const random = MathUtils.generateRandomNumber(0, 1);
-            if (neighborCoords.length > 0 && random === 0) {
-                const random = MathUtils.generateRandomNumber(0, neighborCoords.length - 1);
-                this.area.infectCell(neighborCoords[random]);
+            if (healthyNeighborCoords.length > 0 && random === 0) {
+                const random = MathUtils.generateRandomNumber(0, healthyNeighborCoords.length - 1);
+                this.area.infectCell(healthyNeighborCoords[random]);
             }
         }
     }
