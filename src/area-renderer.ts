@@ -40,8 +40,8 @@ export class AreaRenderer {
 
         const x = coord.j * this.cellSize;
         const y = coord.i * this.cellSize;
-        const wOffset = x > 0 ? 2 : 3;
-        const hOffset = y > 0 ? 2 : 3;
+        const wOffset = x > 0 ? 2 : 4;
+        const hOffset = y > 0 ? 2 : 4;
         this.ctx.fillRect(x > 0 ? x : 2, y > 0 ? y : 2, this.cellSize - wOffset, this.cellSize - hOffset);
     }
 
