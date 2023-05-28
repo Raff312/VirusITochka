@@ -125,7 +125,7 @@ export class Game {
         const dataInfected = {
             labels: labels,
             datasets: [{
-              label: 'Инфецированные',
+              label: 'Инфицированные',
               data: chartData.dataInfected,
               fill: false,
               borderColor: '#c71010',
@@ -151,7 +151,7 @@ export class Game {
         const dataImmune = {
             labels: labels,
             datasets: [{
-              label: 'С иммунитетом',
+              label: 'Имунные',
               data: chartData.dataImmune,
               fill: false,
               borderColor: '#c7c110',
