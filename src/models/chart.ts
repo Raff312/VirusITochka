@@ -3,6 +3,7 @@ export interface IChart {
   dataHealthy: number[];
   dataInfected: number[];
   dataImmune: number[];
+  dataSpreadRate: number[];
 }
 
 export interface IChartConfig {

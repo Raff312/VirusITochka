@@ -11,6 +11,7 @@ export class AreaStateManager {
         dataHealthy: [],
         dataInfected: [],
         dataImmune: [],
+        dataSpreadRate: [],
     };
 
     private readonly area: Area;
@@ -115,6 +116,7 @@ export class AreaStateManager {
             dataHealthy: [],
             dataInfected: [],
             dataImmune: [],
+            dataSpreadRate: [],
         };
         this.saveHistory();
     }
@@ -128,7 +130,8 @@ export class AreaStateManager {
         const dataHealthy: number[] = [];
         const dataInfected: number[] = [];
         const dataImmune: number[] = [];
-
+        const dataSpreadRate: number[] = [];
+        let prevInfectedCount = 0;
         this.history.forEach((area) => {
             let countHealthy = 0;
             let countInfected = 0;
@@ -151,10 +154,13 @@ export class AreaStateManager {
                     },
                 );
             });
+            const spreadRate = countInfected - prevInfectedCount;
             dataTime.push(area.time);
             dataHealthy.push(countHealthy);
             dataInfected.push(countInfected);
             dataImmune.push(countImmune);
+            dataSpreadRate.push(spreadRate >= 0 ? spreadRate : 0);
+            prevInfectedCount = countInfected;
         });
 
         return {
@@ -162,6 +168,7 @@ export class AreaStateManager {
             dataHealthy: dataHealthy,
             dataInfected: dataInfected,
             dataImmune: dataImmune,
+            dataSpreadRate: dataSpreadRate,
         }
     }
 }

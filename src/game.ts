@@ -91,7 +91,7 @@ export class Game {
         modal != null ? modal.style.display = "block" : {};
     }
 
-    public showChart(type: CellStateType): void {
+    public showChart(type: CellStateType | 'spreadRate'): void {
         const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
         const ctx = chartCanvas.getContext('2d');
         const chartData = this.areaStateManager.updateChartData();
