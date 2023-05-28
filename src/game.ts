@@ -76,6 +76,10 @@ export class Game {
         this.area.render();
     }
 
+    public setInfectionProbability(value: number): void {
+        this.areaStateManager.setInfectionProbability(value);
+    }
+
     public getSize(): number {
         return this.area.size;
     }

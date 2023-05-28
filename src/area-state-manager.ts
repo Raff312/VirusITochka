@@ -17,9 +17,11 @@ export class AreaStateManager {
 
     private stateCounter = 0;
     private countOfHealthyCells = 0;
+    private infectionProbability: number;
 
-    constructor(area: Area) {
+    constructor(area: Area, infectionProbability: number = 0.5) {
         this.area = area;
+        this.infectionProbability = infectionProbability;
 
         this.saveHistory();
     }
@@ -81,8 +83,8 @@ export class AreaStateManager {
             this.area.immunizeCell(coord);
         } else {
             const healthyNeighborCoords = this.area.getHealthyNeighborCoords(coord);
-            const random = MathUtils.generateRandomNumber(0, 1);
-            if (healthyNeighborCoords.length > 0 && random === 0) {
+            const random = MathUtils.generateRandomNumber(1, 100);
+            if ((healthyNeighborCoords.length > 0) && (random <= this.infectionProbability * 100)) {
                 const random = MathUtils.generateRandomNumber(0, healthyNeighborCoords.length - 1);
                 this.area.infectCell(healthyNeighborCoords[random]);
             }
@@ -93,6 +95,10 @@ export class AreaStateManager {
         if (cell.stateLifetime > 3) {
             this.area.recoverCell(coord);
         }
+    }
+
+    public setInfectionProbability(value: number): void {
+        this.infectionProbability = MathUtils.minMax(value, 0, 1);
     }
 
     public reset(): void {
