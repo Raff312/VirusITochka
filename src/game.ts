@@ -90,8 +90,8 @@ export class Game {
     public showChartHealthy(): void {
         const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
         const ctx = chartCanvas.getContext('2d');
-        const chartData = this.areaStateManager.chartData;
-        const labels = chartData?.dataTime;
+        const chartData = this.areaStateManager.updateChartData();
+        const labels = chartData.dataTime;
         const dataHealthy = {
             labels: labels,
             datasets: [{
@@ -116,8 +116,8 @@ export class Game {
     public showChartInfected(): void {
         const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
         const ctx = chartCanvas.getContext('2d');
-        const chartData = this.areaStateManager.chartData;
-        const labels = chartData?.dataTime;
+        const chartData = this.areaStateManager.updateChartData();
+        const labels = chartData.dataTime;
         const dataInfected = {
             labels: labels,
             datasets: [{
@@ -142,12 +142,12 @@ export class Game {
     public showChartImmune(): void {
         const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
         const ctx = chartCanvas.getContext('2d');
-        const chartData = this.areaStateManager.chartData;
-        const labels = chartData?.dataTime;
+        const chartData = this.areaStateManager.updateChartData();
+        const labels = chartData.dataTime;
         const dataImmune = {
             labels: labels,
             datasets: [{
-              label: 'С имммунитетом',
+              label: 'С иммунитетом',
               data: chartData.dataImmune,
               fill: false,
               borderColor: '#c7c110',

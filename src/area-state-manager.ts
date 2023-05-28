@@ -115,37 +115,48 @@ export class AreaStateManager {
     }
 
     private saveHistory(): void {
-        const area = this.area.copy();
-        this._saveChartData(area);
-        this.history.push(area);
+        this.history.push(this.area.copy());
     }
 
-    private _saveChartData(area: Area) {
-        let countHealthy = 0;
-        let countInfected = 0;
-        let countImmune = 0;
-        area.cells.forEach((items) => {
-            items.forEach((cell) => {
-                switch (cell.state) {
-                    case "healthy":
-                        countHealthy++;
-                        break;
-                    case "infected":
-                        countInfected++;
-                        break;
-                    case "immune":
-                        countImmune++;
-                        break;
-                    default:
-                        break;
-                    }
-                },
-            );
+    public updateChartData(): IChart {
+        const dataTime: number[] = [];
+        const dataHealthy: number[] = [];
+        const dataInfected: number[] = [];
+        const dataImmune: number[] = [];
+
+        this.history.forEach((area) => {
+            let countHealthy = 0;
+            let countInfected = 0;
+            let countImmune = 0;
+            area.cells.forEach((items) => {
+                items.forEach((cell) => {
+                    switch (cell.state) {
+                        case "healthy":
+                            countHealthy++;
+                            break;
+                        case "infected":
+                            countInfected++;
+                            break;
+                        case "immune":
+                            countImmune++;
+                            break;
+                        default:
+                            break;
+                        }
+                    },
+                );
+            });
+            dataTime.push(area.time);
+            dataHealthy.push(countHealthy);
+            dataInfected.push(countInfected);
+            dataImmune.push(countImmune);
         });
 
-        this.chartData.dataTime.push(area.time);
-        this.chartData.dataHealthy.push(countHealthy);
-        this.chartData.dataInfected.push(countInfected);
-        this.chartData.dataImmune.push(countImmune);
+        return {
+            dataTime: dataTime,
+            dataHealthy: dataHealthy,
+            dataInfected: dataInfected,
+            dataImmune: dataImmune,
+        }
     }
 }
