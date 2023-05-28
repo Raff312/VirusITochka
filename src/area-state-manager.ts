@@ -129,12 +129,12 @@ export class AreaStateManager {
         const dataInfected: number[] = [];
         const dataImmune: number[] = [];
 
-        this.history.forEach((area) => {
+        this.history.forEach(area => {
             let countHealthy = 0;
             let countInfected = 0;
             let countImmune = 0;
-            area.cells.forEach((items) => {
-                items.forEach((cell) => {
+            area.cells.forEach(items => {
+                items.forEach(cell => {
                     switch (cell.state) {
                         case "healthy":
                             countHealthy++;
@@ -147,9 +147,8 @@ export class AreaStateManager {
                             break;
                         default:
                             break;
-                        }
-                    },
-                );
+                    }
+                });
             });
             dataTime.push(area.time);
             dataHealthy.push(countHealthy);
@@ -162,6 +161,6 @@ export class AreaStateManager {
             dataHealthy: dataHealthy,
             dataInfected: dataInfected,
             dataImmune: dataImmune,
-        }
+        };
     }
 }

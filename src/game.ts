@@ -1,7 +1,6 @@
 const { Chart } = require("chart.js/auto");
 import { AreaStateManager } from "./area-state-manager";
 import { Area } from "./models/area";
-import { IChart } from "./models/chart";
 import { AreaRenderer } from "./area-renderer";
 import { CellStateType } from "./typings/cell";
 import { getChartInfo } from "./utils/chart-utils";
@@ -87,19 +86,19 @@ export class Game {
 
     public showCharts(): void {
         const modal = document.getElementById("chartModal");
-        this.showChart('healthy');
+        this.showChart("healthy");
         modal != null ? modal.style.display = "block" : {};
     }
 
     public showChart(type: CellStateType): void {
-        const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
-        const ctx = chartCanvas.getContext('2d');
+        const chartCanvas =  document.getElementById("chart") as HTMLCanvasElement;
+        const ctx = chartCanvas.getContext("2d");
         const chartData = this.areaStateManager.updateChartData();
         const data = getChartInfo(type, chartData);
         const configData = {
-            type: 'line',
+            type: "line",
             data: data,
-        }
+        };
         if (this._chart) {
             this._chart.destroy();
         }
