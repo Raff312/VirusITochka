@@ -2,11 +2,13 @@ const { Chart } = require("chart.js/auto");
 import { AreaStateManager } from "./area-state-manager";
 import { Area } from "./models/area";
 import { IChart } from "./models/chart";
+import { AreaRenderer } from "./area-renderer";
 
 export class Game {
     public timeoutInSec = 0.3;
 
-    private readonly area = new Area(5, 0);
+    private readonly areaRenderer = new AreaRenderer();
+    private readonly area = new Area(this.areaRenderer, 5, 0);
     private readonly areaStateManager = new AreaStateManager(this.area);
 
     public gameTickCounter = 0;

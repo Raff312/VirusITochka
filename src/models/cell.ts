@@ -4,6 +4,11 @@ export class Cell {
     private _state: CellStateType = "healthy";
     private _stateLifetime: number = 0;
 
+    constructor (state: CellStateType = "healthy", stateLifetime: number = 0) {
+        this._state = state;
+        this._stateLifetime = stateLifetime;
+    }
+
     public get state(): CellStateType {
         return this._state;
     }
@@ -49,5 +54,9 @@ export class Cell {
 
     public incrementLifeTime(): void {
         this._stateLifetime++;
+    }
+
+    public copy(): Cell {
+        return new Cell(this._state, this._stateLifetime);
     }
 }
