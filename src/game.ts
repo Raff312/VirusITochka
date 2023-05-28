@@ -1,10 +1,14 @@
+const { Chart } = require("chart.js/auto");
 import { AreaStateManager } from "./area-state-manager";
 import { Area } from "./models/area";
+import { IChart } from "./models/chart";
 import { AreaRenderer } from "./area-renderer";
+import { CellStateType } from "./typings/cell";
+import { getChartInfo } from "./utils/chart-utils";
 
 export class Game {
     private readonly areaRenderer = new AreaRenderer();
-    private readonly area = new Area(this.areaRenderer, 5);
+    private readonly area = new Area(this.areaRenderer, 5, 0);
     private readonly areaStateManager = new AreaStateManager(this.area);
 
     public timeoutInSec = 0.3;
@@ -13,6 +17,7 @@ export class Game {
     private running = false;
     private dateStart = 0;
     private animationRequestId = 0;
+    private _chart;
 
     public init(): void {
         this.area.render();
@@ -78,5 +83,31 @@ export class Game {
 
     public getSize(): number {
         return this.area.size;
+    }
+
+    public showCharts(): void {
+        const modal = document.getElementById("chartModal");
+        this.showChart('healthy');
+        modal != null ? modal.style.display = "block" : {};
+    }
+
+    public showChart(type: CellStateType): void {
+        const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
+        const ctx = chartCanvas.getContext('2d');
+        const chartData = this.areaStateManager.updateChartData();
+        const data = getChartInfo(type, chartData);
+        const configData = {
+            type: 'line',
+            data: data,
+        }
+        if (this._chart) {
+            this._chart.destroy();
+        }
+        this._chart = new Chart(ctx, configData);
+    }
+
+    public closeCharts(): void {
+        const modal = document.getElementById("chartModal");
+        modal != null ? modal.style.display = "none" : {};
     }
 }

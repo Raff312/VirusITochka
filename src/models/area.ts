@@ -9,13 +9,15 @@ export class Area {
 
     private readonly renderer: AreaRenderer;
 
+    private _time: number;
+
     private _size = 3;
     private _cells = new Array<Array<Cell>>();
 
-    constructor(renderer: AreaRenderer, size: number, cells?: Array<Array<Cell>>) {
+    constructor(renderer: AreaRenderer, size: number, time: number, cells?: Array<Array<Cell>>) {
         this.renderer = renderer;
-
         this.size = size;
+        this._time = time;
         this.initCells(cells);
     }
 
@@ -42,6 +44,18 @@ export class Area {
         value = MathUtils.minMax(value, Area.MIN_SIZE, Area.MAX_SIZE);
         this._size = (value & 1) ? value : value - 1;
         this.initCells();
+    }
+
+    public get time(): number {
+        return this._time;
+    }
+
+    public set time(value: number) {
+        this._time = value;
+    }
+
+    public get cells(): Cell[][] {
+        return this._cells;
     }
 
     public resetCells(): void {
@@ -113,6 +127,6 @@ export class Area {
     }
 
     public copy(): Area {
-        return new Area(this.renderer, this._size, this._cells);
+        return new Area(this.renderer, this._size, this._time, this._cells);
     }
 }

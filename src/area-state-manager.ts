@@ -1,10 +1,17 @@
 import { Area } from "./models/area";
 import { Cell } from "./models/cell";
+import { IChart } from "./models/chart";
 import { ICoord } from "./models/coord";
 import { MathUtils } from "./utils/math-utils";
 
 export class AreaStateManager {
     public history = new Array<Area>();
+    public chartData: IChart = {
+        dataTime: [],
+        dataHealthy: [],
+        dataInfected: [],
+        dataImmune: [],
+    };
 
     private readonly area: Area;
 
@@ -24,6 +31,7 @@ export class AreaStateManager {
     }
 
     public next(): void {
+        this.area.time += 1;
         if (this.stateCounter !== 0 && this.isAreaUnchangeable) {
             return;
         }
@@ -95,16 +103,65 @@ export class AreaStateManager {
 
     public reset(): void {
         this.area.resetCells();
+        this.area.time = 0;
         this.resetHistory();
         this.stateCounter = 0;
     }
 
     private resetHistory(): void {
         this.history = [];
+        this.chartData = {
+            dataTime: [],
+            dataHealthy: [],
+            dataInfected: [],
+            dataImmune: [],
+        };
         this.saveHistory();
     }
 
     private saveHistory(): void {
         this.history.push(this.area.copy());
+    }
+
+    public updateChartData(): IChart {
+        const dataTime: number[] = [];
+        const dataHealthy: number[] = [];
+        const dataInfected: number[] = [];
+        const dataImmune: number[] = [];
+
+        this.history.forEach((area) => {
+            let countHealthy = 0;
+            let countInfected = 0;
+            let countImmune = 0;
+            area.cells.forEach((items) => {
+                items.forEach((cell) => {
+                    switch (cell.state) {
+                        case "healthy":
+                            countHealthy++;
+                            break;
+                        case "infected":
+                            countInfected++;
+                            break;
+                        case "immune":
+                            countImmune++;
+                            break;
+                        default:
+                            break;
+                        }
+                    },
+                );
+            });
+            dataTime.push(area.time);
+            dataHealthy.push(countHealthy);
+            dataInfected.push(countInfected);
+            dataImmune.push(countImmune);
+        });
+
+        return {
+            dataTime: dataTime,
+            dataHealthy: dataHealthy,
+            dataInfected: dataInfected,
+            dataImmune: dataImmune,
+        }
     }
 }
