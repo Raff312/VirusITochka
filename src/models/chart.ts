@@ -4,3 +4,17 @@ export interface IChart {
   dataInfected: number[];
   dataImmune: number[];
 }
+
+export interface IChartConfig {
+  labels: number[],
+  datasets: [
+    {
+      label: string;
+      data: number[];
+      fill: boolean;
+      borderColor: string;
+      tension: number;
+      backgroundColor: string;
+    }
+  ]
+}

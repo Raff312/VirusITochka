@@ -103,7 +103,6 @@ export class AreaStateManager {
 
     public reset(): void {
         this.area.resetCells();
-        this.area.size = 0;
         this.area.time = 0;
         this.resetHistory();
         this.stateCounter = 0;

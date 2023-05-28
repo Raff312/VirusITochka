@@ -3,6 +3,8 @@ import { AreaStateManager } from "./area-state-manager";
 import { Area } from "./models/area";
 import { IChart } from "./models/chart";
 import { AreaRenderer } from "./area-renderer";
+import { CellStateType } from "./typings/cell";
+import { getChartInfo } from "./utils/chart-utils";
 
 export class Game {
     public timeoutInSec = 0.3;
@@ -86,87 +88,23 @@ export class Game {
 
     public showCharts(): void {
         const modal = document.getElementById("chartModal");
-        
-        this.showChartHealthy()
+        this.showChart('healthy');
         modal != null ? modal.style.display = "block" : {};
     }
 
-    public showChartHealthy(): void {
+    public showChart(type: CellStateType): void {
         const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
         const ctx = chartCanvas.getContext('2d');
         const chartData = this.areaStateManager.updateChartData();
-        const labels = chartData.dataTime;
-        const dataHealthy = {
-            labels: labels,
-            datasets: [{
-              label: 'Здоровые',
-              data: chartData.dataHealthy,
-              fill: false,
-              borderColor: '#00992b',
-              tension: 0.1,
-              backgroundColor: '#00992b',
-            }]
-          };
-        const configDataHealthy = {
+        const data = getChartInfo(type, chartData);
+        const configData = {
             type: 'line',
-            data: dataHealthy,
-        };
+            data: data,
+        }
         if (this._chart) {
             this._chart.destroy();
         }
-        this._chart = new Chart(ctx, configDataHealthy);
-    }
-
-    public showChartInfected(): void {
-        const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
-        const ctx = chartCanvas.getContext('2d');
-        const chartData = this.areaStateManager.updateChartData();
-        const labels = chartData.dataTime;
-        const dataInfected = {
-            labels: labels,
-            datasets: [{
-              label: 'Инфицированные',
-              data: chartData.dataInfected,
-              fill: false,
-              borderColor: '#c71010',
-              tension: 0.1,
-              backgroundColor: '#c71010',
-            }]
-          };
-        const configDataInfected = {
-            type: 'line',
-            data: dataInfected,
-        };
-        if (this._chart) {
-            this._chart.destroy();
-        }
-        this._chart = new Chart(ctx, configDataInfected);
-    }
-
-    public showChartImmune(): void {
-        const chartCanvas =  document.getElementById('chart') as HTMLCanvasElement;
-        const ctx = chartCanvas.getContext('2d');
-        const chartData = this.areaStateManager.updateChartData();
-        const labels = chartData.dataTime;
-        const dataImmune = {
-            labels: labels,
-            datasets: [{
-              label: 'Имунные',
-              data: chartData.dataImmune,
-              fill: false,
-              borderColor: '#c7c110',
-              tension: 0.1,
-              backgroundColor: '#c7c110',
-            }]
-          };
-        const configDataImmune = {
-            type: 'line',
-            data: dataImmune,
-        };
-        if (this._chart) {
-            this._chart.destroy();
-        }
-        this._chart = new Chart(ctx, configDataImmune);
+        this._chart = new Chart(ctx, configData);
     }
 
     public closeCharts(): void {
