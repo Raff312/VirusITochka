@@ -1,7 +1,7 @@
 import { IChart, IChartConfig } from "src/models/chart";
 import { CellStateType } from "src/typings/cell";
 
-export function getChartInfo(type: CellStateType, data: IChart): IChartConfig {
+export function getChartInfo(type: CellStateType | "spreadRate", data: IChart): IChartConfig {
     const labels = data.dataTime;
     switch (type) {
         case "healthy":
@@ -43,6 +43,20 @@ export function getChartInfo(type: CellStateType, data: IChart): IChartConfig {
                         borderColor: "#c7c110",
                         tension: 0.1,
                         backgroundColor: "#c7c110",
+                    },
+                ],
+            };
+        case "spreadRate":
+            return {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Скорость распространения инфекции",
+                        data: data.dataSpreadRate,
+                        fill: false,
+                        borderColor: "#c71010",
+                        tension: 0.1,
+                        backgroundColor: "#c71010",
                     },
                 ],
             };
