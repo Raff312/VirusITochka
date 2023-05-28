@@ -12,8 +12,8 @@ export class Area {
     private _size = 3;
     private _cells = new Array<Array<Cell>>();
 
-    constructor(size: number, cells?: Array<Array<Cell>>) {
-        this.renderer = new AreaRenderer();
+    constructor(renderer: AreaRenderer, size: number, cells?: Array<Array<Cell>>) {
+        this.renderer = renderer;
 
         this.size = size;
         this.initCells(cells);
@@ -24,7 +24,7 @@ export class Area {
         for (let i = 0; i < this._size; i++) {
             this._cells.push(new Array<Cell>());
             for (let j = 0; j < this._size; j++) {
-                const cell = cells && cells[i][j] ? cells[i][j] : new Cell();
+                const cell = cells && cells[i][j] ? cells[i][j].copy() : new Cell();
                 this._cells[i].push(cell);
             }
         }
@@ -113,6 +113,6 @@ export class Area {
     }
 
     public copy(): Area {
-        return new Area(this._size, this._cells);
+        return new Area(this.renderer, this._size, this._cells);
     }
 }
