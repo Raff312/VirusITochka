@@ -132,12 +132,13 @@ export class AreaStateManager {
         const dataImmune: number[] = [];
         const dataSpreadRate: number[] = [];
         let prevInfectedCount = 0;
-        this.history.forEach((area) => {
+        
+        this.history.forEach(area => {
             let countHealthy = 0;
             let countInfected = 0;
             let countImmune = 0;
-            area.cells.forEach((items) => {
-                items.forEach((cell) => {
+            area.cells.forEach(items => {
+                items.forEach(cell => {
                     switch (cell.state) {
                         case "healthy":
                             countHealthy++;
@@ -150,9 +151,8 @@ export class AreaStateManager {
                             break;
                         default:
                             break;
-                        }
-                    },
-                );
+                    }
+                });
             });
             const spreadRate = countInfected - prevInfectedCount;
             dataTime.push(area.time);
