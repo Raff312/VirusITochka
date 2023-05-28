@@ -3,12 +3,11 @@ import { Area } from "./models/area";
 import { AreaRenderer } from "./area-renderer";
 
 export class Game {
-    public timeoutInSec = 0.3;
-
     private readonly areaRenderer = new AreaRenderer();
     private readonly area = new Area(this.areaRenderer, 5);
     private readonly areaStateManager = new AreaStateManager(this.area);
 
+    public timeoutInSec = 0.3;
     public gameTickCounter = 0;
 
     private running = false;
