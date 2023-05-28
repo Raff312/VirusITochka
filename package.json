@@ -31,6 +31,7 @@
         "webpack-cli": "^4.10.0"
     },
     "dependencies": {
+        "chart.js": "^4.3.0",
         "copy-webpack-plugin": "^11.0.0"
     }
 }

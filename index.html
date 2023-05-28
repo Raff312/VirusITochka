@@ -8,6 +8,30 @@
         <link rel="icon" href="./dist/assets/virus.png" />
     </head>
     <body>
+        <div id="chartModal" class="modal">
+            <div class="modal-content">
+              <span class="close" onclick="game.closeCharts()">&times;</span>
+              <div>
+                <button 
+                    class="btn"
+                    onclick="game.showChartHealthy()">
+                    Здровые
+                </button>
+                <button 
+                    class="btn"
+                    onclick="game.showChartInfected()">
+                    Инфецированные
+                </button>
+                <button 
+                    class="btn"
+                    onclick="game.showChartImmune()">
+                    С имунитетом
+                </button>
+                <canvas id="chart"></canvas>
+              </div>
+            </div>
+          
+          </div>
         <div class="canvas-wrapper">
             <canvas class="canvas" id="canvas" width="900" height="900">
                 Если вы можете прочитать это, значит, ваш браузер не поддерживает canvas.
@@ -20,8 +44,18 @@
             <button class="btn" onclick="game.stop()">
                 Стоп
             </button>
-            <button class="btn" onclick="game.reset()">
+            <button 
+                class="btn" 
+                onclick="{game.reset();}"
+            >
                 Очистить
+            </button>
+            <button 
+                class="btn" 
+                style="position: absolute; top: 20px; right: 20px; width: 100px; height: 50px;" 
+                onclick="game.showCharts()"
+            >
+                Графики
             </button>
             <label for="timeout">Введите таймаут обновления: </label>
             <input id="timeout" type="number" min="0.1" max="5" step="0.1" value="0.1" />
