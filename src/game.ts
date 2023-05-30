@@ -98,6 +98,22 @@ export class Game {
         const configData = {
             type: "line",
             data: data,
+            options: {
+                scales: {
+                  y: {
+                    title: {
+                      display: true,
+                      text: type == 'spreadRate' ? 'Скорость распространения' : 'Количество',
+                    }
+                  },
+                  x: {
+                    title: {
+                      display: true,
+                      text: 'Время',
+                    }
+                  }
+                }
+            }
         };
         if (this._chart) {
             this._chart.destroy();
