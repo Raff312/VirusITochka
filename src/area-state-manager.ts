@@ -132,7 +132,7 @@ export class AreaStateManager {
         const dataImmune: number[] = [];
         const dataSpreadRate: number[] = [];
         let prevInfectedCount = 0;
-        
+
         this.history.forEach(area => {
             let countHealthy = 0;
             let countInfected = 0;
@@ -169,6 +169,6 @@ export class AreaStateManager {
             dataInfected: dataInfected,
             dataImmune: dataImmune,
             dataSpreadRate: dataSpreadRate,
-        }
+        };
     }
 }

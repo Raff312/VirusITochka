@@ -84,13 +84,7 @@ export class Game {
         return this.area.size;
     }
 
-    public showCharts(): void {
-        const modal = document.getElementById("chartModal");
-        this.showChart("healthy");
-        modal != null ? modal.style.display = "block" : {};
-    }
-
-    public showChart(type: CellStateType | 'spreadRate'): void {
+    public showChart(type: CellStateType | "spreadRate"): void {
         const chartCanvas =  document.getElementById("chart") as HTMLCanvasElement;
         const ctx = chartCanvas.getContext("2d");
         const chartData = this.areaStateManager.updateChartData();
@@ -100,18 +94,18 @@ export class Game {
             data: data,
             options: {
                 scales: {
-                  y: {
-                    title: {
-                      display: true,
-                      text: type == 'spreadRate' ? 'Скорость распространения' : 'Количество',
+                    y: {
+                        title: {
+                            display: true,
+                            text: type == "spreadRate" ? "Скорость распространения" : "Количество",
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Время",
+                        }
                     }
-                  },
-                  x: {
-                    title: {
-                      display: true,
-                      text: 'Время',
-                    }
-                  }
                 }
             }
         };
@@ -119,10 +113,5 @@ export class Game {
             this._chart.destroy();
         }
         this._chart = new Chart(ctx, configData);
-    }
-
-    public closeCharts(): void {
-        const modal = document.getElementById("chartModal");
-        modal != null ? modal.style.display = "none" : {};
     }
 }

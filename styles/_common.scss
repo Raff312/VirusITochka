@@ -1,4 +1,51 @@
+body {
+    width: 100vw;
+    height: 100vh;
+
+    background-image: url("./assets/virus-bg.jpg");
+    background-position: center center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
 .actions {
     display: flex;
     flex-direction: column;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 600px;
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 20%;
+}
+
+.btn-close {
+    align-self: flex-end;
+}
+
+.form-control {
+    height: 36px;
+    border: 1px solid green;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.label {
+    color: white;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bolder;
+    text-shadow: 1px 1px 2px black;
 }
